@@ -32,10 +32,23 @@
       </div>
     </nav>
 
+    {% block content %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Success!</strong>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              {{ message }}
+          </div>
+        {% endfor %}
+
+      {% endif %}
+    {% endblock %}
+
     <div class="container my-3">
-      <h2 class="text-center py-3">All Tasks</h2>
-      <table class="table">
-        <thead>
+      <h2 class="text-center py-4">All Tasks</h2>
+      <table class="table table-borderless table-hover">
+        <thead class="thead-dark">
           <tr>
             <th scope="col">#</th>
             <th scope="col">Task Title</th>
@@ -49,15 +62,49 @@
             <th scope="row">{{forloop.counter}}</th>
             <td>{{task.taskTitle}}</td>
             <td>{{task.taskDesc}}</td>
-            <td><center><a href="{% url 'delete' task.id %}">Delete</a></center></td>
-            <td><center><a href="{% url 'update_task' task.id %}">Update</a></center></td>
+            <td><center><button style="background-color:#f44336"><a style="text-decoration:none; color:white" href="{% url 'delete' task.id %}">Delete</a></button></center></td>
+            <td><center><button style="text-decoration:none; background-color:#4CAF50; color:white" data-bs-toggle="modal" data-bs-target="#exampleModal">Update</button></center></td>
           </tr>
+
+          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update Task</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="{% url 'update_task' task.id %}">
+         {% csrf_token %}
+          <div class="mb-3">
+            <label for="title" class="form-label">Task Title:</label>
+            <input type="text" class="form-control" id="title" name="title">
+          </div>
+          <div class="mb-3">
+            <label for="desc" class="form-label">Task Description:</label>
+            <textarea class="form-control" id="desc" name="desc"></textarea>
+          </div>
+           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" value="update_task">Save Changes</button>
+        </form>
+      </div>
+     
+    </div>
+  </div>
+</div>
         {% endfor %}       
           
         </tbody>
       </table>
      
     </div>
+
+
+
+
+
+
+    
     
 
     <!-- Optional JavaScript; choose one of the two! -->

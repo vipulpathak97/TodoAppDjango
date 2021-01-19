@@ -7,4 +7,4 @@ class Task(models.Model):
     time = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.taskTitle
+        return self.taskTitle + ' | ' + str(self.taskDesc)

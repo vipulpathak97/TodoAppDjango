@@ -22,5 +22,5 @@ urlpatterns = [
     path('', views.todolist, name='todolist'),
     path('tasks', views.tasks, name='tasks'),
     path('delete/<list_id>', views.delete, name="delete"),
-    path('update_task/<list_id>', views.update_task, name='update_task')
+    path('update_task/<list_id>', views.update_task, name='update_task'),
 ]
